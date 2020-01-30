@@ -39,3 +39,31 @@ To run the demo app locally and test the component, run the following commands:
 $ npm install
 $ npm start
 ```
+
+
+# Wordpress functions 
+
+
+Enqueue the script on the specific page 
+```sh
+function myuw_badge_component_scripts($page) {
+ if( is_page( array( 'sandbox'))) {
+      wp_enqueue_script( 'myuw-badge-js', get_stylesheet_directory_uri().'/assets/js/webcomponents/myuw-badge.js', array('jquery'), null, true);
+ }
+}
+ add_action('wp_enqueue_scripts', 'myuw_badge_component_scripts', 999);
+```
+ Add myuw-badge shortcode with url attribute
+```sh
+function myuw_badge_shortcode($atts) {
+   $url = "https://my.wisc.edu";
+   if ($atts["url"] != "") {
+      shortcode_atts( array(
+        'url' 
+      ), $atts);
+   $url = $atts['url'];
+  }
+  return '<myuw-badge url="'. $url .'"></myuw-badge>';
+}
+add_shortcode('myuw-badge', 'myuw_badge_shortcode');
+```
